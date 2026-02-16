@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlanWise</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+<body class="font-sans bg-rose-50">
+    <main class="max-w-6xl mx-auto p-10 space-y-6">
+        <section id="planning-center">
+            <div class="text-center pb-4 max-w-5xl mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h1 class="text-3xl font-bold">Study Planner</h1>
+                    <p class="font-light pt-2">Smart priority · Pomodoro · Progress</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-neutral-50 p-8 rounded-xl ring-1 ring-stone-300">
+                    <button class="bg-amber-800 outline-rose-400 p-2 px-4 rounded-lg text-stone-100 transform transition hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:transform-none js-add-btn">+ Add subject</button>
+
+                    <div class="pt-5">
+                        <button class="bg-amber-800 outline-rose-400 p-2 px-4 rounded-lg text-stone-100 transform transition hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:transform-none js-add-btn">Cancel</button>
+
+                        <div>
+                            <form action="">
+                                <label for="name">Name</label>
+                                <input class="placeholder:text-gray-500 placeholder:italic"
+                                placeholder="e.g. IELTS, SAT, Web Programming"
+                                type="text"
+                                name="name"
+                                />
+
+                                <label for="difficulty">Difficulty</label>
+                                <input class="placeholder:text-gray-500 placeholder:italic"
+                                placeholder="e.g. IELTS, SAT, Web Programming"
+                                type="text"
+                                name="name"
+                                />
+
+                                <label for="name">Name</label>
+                                <input class="placeholder:text-gray-500 placeholder:italic"
+                                placeholder="e.g. IELTS, SAT, Web Programming"
+                                type="text"
+                                name="name"
+                                />
+
+                                <label for="name">Name</label>
+                                <input class="placeholder:text-gray-500 placeholder:italic"
+                                placeholder="e.g. IELTS, SAT, Web Programming"
+                                type="text"
+                                name="name"
+                                />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-neutral-50 p-7 rounded-xl ring-1 ring-stone-300 leading-7">
+                    <h1 class="text-xl font-semibold">Today's study time</h1>
+                    <p class="date-label py-2 text-zinc-400 text-sm"></p>
+                    <label class="tracking-wide">
+                        I have
+                        <input type="number" step="0.5" min="0" max="24" placeholder="0" class="text-center">
+                        hours today.
+                    </label>
+                </div>
+
+                <div class="col-span-1 sm:col-span-2 bg-neutral-50 p-5 rounded-xl ring-1 ring-stone-300">
+                    <p class="text-lg font-semibold">What to study next</p>
+                    <p class="text-xs text-neutral-400 pt-1">Sorted by urgency, difficulty & remaining hours.</p>
+                    <p class="text-sm text-neutral-400 pt-3 pb-5">Add subjects above to see your smart priority list.</p>
+                    <div class="bg-rose-50 p-5 rounded-lg">
+                        <span>#1</span>
+                        <span>IELTS</span>
+                        <div>
+                            <span>Exam: Mar 18, 2026</span>
+                            <span>29 days left</span>
+                            <span>Difficulty 3/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="focus-dashboard">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+                <div class="bg-neutral-50 p-7 rounded-xl ring-1 ring-stone-300">
+                    <p class="text-lg font-semibold">Pomodoro</p>
+                    <p>25 min focus · 5 min break</p>
+                    <div></div>
+                    <button>Start focus</button>
+                </div>
+                <div class="bg-neutral-50 p-5 rounded-xl ring-1 ring-stone-300">
+                    <p class="text-lg font-semibold">Progress</p>
+                    <div class="flex">
+                        <div class="stat">
+                            <span class="stat-value"></span>
+                            <span class="stat-label text-xs">Complete</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value"></span>
+                            <span class="stat-label text-xs">Total hours studied</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value"></span>
+                            <span class="stat-label text-xs">This week</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-neutral-50 p-5 rounded-xl ring-1 ring-stone-300">
+                    <p class="text-lg font-semibold">Streak</p>
+                    <div class="streak-content">
+                        <div></div>
+                        <p>Study 5 days in a row to earn the streak badge.</p>
+                        <p>Longest streak: <span class="streak-days"></span> days</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="productivity-chart">
+            <div class="bg-neutral-50 p-8 pt-5 rounded-xl ring-1 ring-stone-300 flex justify-around gap-5 flex sm:flex-col md:flex-row">
+                <div class="chart-text">
+                    <h2>Hours per subject</h2>
+                    <p class="pie-chart">Log some study hours to see the chart.</p>
+                    <div>
+                        <canvas id="pie-chart" class="w-300 md:w-full h-100"></canvas>
+                    </div>
+                </div>
+                <div class="chart-graph">
+                    <h2>Weekly productivity</h2>
+                    <div>
+                        <canvas id="bar-chart" class="w-100 md:w-150 h-100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="calendar">
+            <div id="calendar-container" class="bg-neutral-50 p-8 pt-5 rounded-xl ring-1 ring-stone-300"></div>
+        </section>
+        
+
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="chart.js"></script>
+        <script src="calendar.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    </main>
+</body>
+</html>
