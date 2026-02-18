@@ -3,154 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="imgs/planning.jpg" type="image/x-icon">
     <title>PlanWise</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="font-sans bg-rose-50">
-    <main class="max-w-6xl mx-auto p-10 space-y-6">
-        <section id="planning-center">
-            <div class="text-center pb-4 max-w-5xl mx-auto px-6">
-                <div class="max-w-4xl mx-auto">
-                    <h1 class="text-3xl font-bold">Study Planner</h1>
-                    <p class="font-light pt-2">Smart priority · Pomodoro · Progress</p>
-                </div>
+<body>
+    <div class="container-fluid">
+        <div class="container p-3">
+            <div class="text-center">
+                <h1>Study Planner</h1>
+                <p class="fw-lighter">Smart priority · Pomodoro · Progress</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-neutral-50 p-8 rounded-xl ring-1 ring-stone-300">
-                    <button class="bg-amber-800 outline-rose-400 p-2 px-4 rounded-lg text-stone-100 transform transition hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:transform-none js-add-btn">+ Add subject</button>
+            <div class="row pt-3 g-4">
+                <div class="col-12 col-sm-6 add-btn-container">
+                    <div class="bg-body border border-light-subtle p-3 rounded-4 h-100">
+                        <button class="btn bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3 add-btn">
+                            + Add subject
+                        </button>
 
-                    <div class="pt-5">
-                        <button class="bg-amber-800 outline-rose-400 p-2 px-4 rounded-lg text-stone-100 transform transition hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:transform-none js-add-btn">Cancel</button>
+                        <div class="form-container bg-body border border-light-subtle p-3 rounded-4 h-100 col-12 col-sm-6">
 
-                        <div>
+                            <button class="btn bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3">Cancel</button>
                             <form action="">
-                                <label for="name">Name</label>
-                                <input class="placeholder:text-gray-500 placeholder:italic"
-                                placeholder="e.g. IELTS, SAT, Web Programming"
-                                type="text"
-                                name="name"
-                                />
+                                <div class="mb-3">
+                                    <label for="" class="form-label fw-light">Name</label> <br>
+                                    <input type="text" class="form-control" required placeholder="e.g. IELTS, SAT, Web Programming">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label fw-light">Difficulty (1-5)</label> <br>
+                                    <select class="form-select form-select rounded-3" aria-label="Difficulty (1-5)">
+                                        <option value="1">1 - Very easy</option>
+                                        <option value="2">2 - Easy</option>
+                                        <option value="3" selected>3 - Medium</option>
+                                        <option value="4">4 - Hard</option>
+                                        <option value="5">5 - Very hard</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label fw-light">Exam Date</label> <br>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label fw-light">Hours needed</label> <br>
+                                    <input type="number" min="0.5" step="0.5" class="form-control">
+                                </div>
 
-                                <label for="difficulty">Difficulty</label>
-                                <input class="placeholder:text-gray-500 placeholder:italic"
-                                placeholder="e.g. IELTS, SAT, Web Programming"
-                                type="text"
-                                name="name"
-                                />
-
-                                <label for="name">Name</label>
-                                <input class="placeholder:text-gray-500 placeholder:italic"
-                                placeholder="e.g. IELTS, SAT, Web Programming"
-                                type="text"
-                                name="name"
-                                />
-
-                                <label for="name">Name</label>
-                                <input class="placeholder:text-gray-500 placeholder:italic"
-                                placeholder="e.g. IELTS, SAT, Web Programming"
-                                type="text"
-                                name="name"
-                                />
+                                <button class="btn bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3">Add subject</button>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-neutral-50 p-7 rounded-xl ring-1 ring-stone-300 leading-7">
-                    <h1 class="text-xl font-semibold">Today's study time</h1>
-                    <p class="date-label py-2 text-zinc-400 text-sm"></p>
-                    <label class="tracking-wide">
-                        I have
-                        <input type="number" step="0.5" min="0" max="24" placeholder="0" class="text-center">
-                        hours today.
-                    </label>
+                <div class="col-12 col-sm-6">
+                    <div class="bg-body border border-light-subtle p-3 rounded-4 h-100">
+                        <p>Today's study time</p>
+                        <p class=""></p>
+                        <label>
+                            I have
+                            <input type="number" step="0.5" min="0" max="24" placeholder="0" class="text-center">
+                            hours today.
+                        </label>
+                    </div>
                 </div>
+            </div>
 
-                <div class="col-span-1 sm:col-span-2 bg-neutral-50 p-5 rounded-xl ring-1 ring-stone-300">
-                    <p class="text-lg font-semibold">What to study next</p>
-                    <p class="text-xs text-neutral-400 pt-1">Sorted by urgency, difficulty & remaining hours.</p>
-                    <p class="text-sm text-neutral-400 pt-3 pb-5">Add subjects above to see your smart priority list.</p>
-                    <div class="bg-rose-50 p-5 rounded-lg">
-                        <span>#1</span>
-                        <span>IELTS</span>
+            <section id="study-container">
+                <div class="bg-body border border-light-subtle p-3 rounded-4 mt-4">
+                    <p>What to study next</p>
+                    <p class="small-things">Sorted by urgency, difficulty & remaining hours.</p>
+                    <div class="box-color p-3 rounded-3">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span>#1</span>
+                                <span>IELTS</span>
+                            </div>
+                            <div>
+                                <span class="bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3 p-1">41.8</span>
+                            </div>
+                        </div>
                         <div>
-                            <span>Exam: Mar 18, 2026</span>
-                            <span>29 days left</span>
-                            <span>Difficulty 3/5</span>
+                            <span class="small-things">Exam: Mar 19, 2026</span>
+                            <span class="small-things px-2">29 days left</span>
+                            <span class="small-things">Difficulty: 3/5</span>
+                        </div>
+                        <div class="progress mt-1" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-2">
+                            <div>
+                                <button class="btn btn-sm bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3">+0.5 h</button>
+                                <button class="btn btn-sm bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3">+1 h</button>
+                            </div>
+                            <div>
+                                <button style="border: none;" class="p-1 del-btn">Delete</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="focus-dashboard">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
-                <div class="bg-neutral-50 p-7 rounded-xl ring-1 ring-stone-300">
-                    <p class="text-lg font-semibold">Pomodoro</p>
-                    <p>25 min focus · 5 min break</p>
-                    <div></div>
-                    <button>Start focus</button>
-                </div>
-                <div class="bg-neutral-50 p-5 rounded-xl ring-1 ring-stone-300">
-                    <p class="text-lg font-semibold">Progress</p>
-                    <div class="flex">
-                        <div class="stat">
-                            <span class="stat-value"></span>
-                            <span class="stat-label text-xs">Complete</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value"></span>
-                            <span class="stat-label text-xs">Total hours studied</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value"></span>
-                            <span class="stat-label text-xs">This week</span>
+            <section id="progress-container">
+                <div class="row mt-4 g-2 g-lg-3">
+                    <div class="col-6 col-md-4 col-lg-4">
+                        <div class="bg-body border border-light-subtle p-3 rounded-4 h-150">
+                            <p>Pomodoro</p>
+                            <span class="small-things">25 min focus · 5 min break</span>
+                            <div>
+                                <span>25:00</span>
+                                <span>_</span>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3">Start focus</button>
+                            </div>
+                            <p class="small-things">Sessions today: 0</p>
                         </div>
                     </div>
-                </div>
-                <div class="bg-neutral-50 p-5 rounded-xl ring-1 ring-stone-300">
-                    <p class="text-lg font-semibold">Streak</p>
-                    <div class="streak-content">
-                        <div></div>
-                        <p>Study 5 days in a row to earn the streak badge.</p>
-                        <p>Longest streak: <span class="streak-days"></span> days</p>
+
+                    <div class="col-6 col-md-4 col-lg-4">
+                        <div class="bg-body border border-light-subtle p-3 rounded-4 h-150">
+                            <p>Progress</p>
+                            <div class="d-flex justify-content-evenly">
+                                <div>
+                                    <span>0%</span>
+                                    <p class="small-things">Complete</p>
+                                </div>
+                                <div>
+                                    <span>0.0</span>
+                                    <p class="small-things">Total hours studied</p>
+                                </div>
+                                <div>
+                                    <span>15.0</span>
+                                    <p class="small-things">This week</p>
+                                </div>
+                            </div>
+                            <div class="progress mt-1" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+                                <div class="progress-bar" style="width: 0%"></div>
+                            </div>
+                            <p class="small-things">0.0 / 10.0 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-4">
+                        <div class="bg-body border border-light-subtle p-3 rounded-4 h-150">
+                            <p>Streak</p>
+                            <div class="text-center p-2 rounded-3 box-color small-color streak-days">
+                                - 3 day streak
+                            </div>
+                            <p class="small-things mt-1">Study 5 days in a row to earn the streak badge.</p>
+                            <p class="small-things">
+                                Longest streak:
+                                <strong>3</strong>
+                                days
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="productivity-chart">
-            <div class="bg-neutral-50 p-8 pt-5 rounded-xl ring-1 ring-stone-300 flex justify-around gap-5 flex sm:flex-col md:flex-row">
-                <div class="chart-text">
-                    <h2>Hours per subject</h2>
-                    <p class="pie-chart">Log some study hours to see the chart.</p>
-                    <div>
-                        <canvas id="pie-chart" class="w-300 md:w-full h-100"></canvas>
+            <section id="charts">
+                <div class="row bg-body border border-light-subtle p-3 rounded-4 mt-4 align-items-stretch">
+                    <p class="fw-bold fs-5">Charts</p>
+                    <div class="col-12 col-lg-6">
+                        <p class="small-color fs-6">Hours per subject</p>
+                        <p class="small-things" style="display: none;">Log some study hours to see the chart.</p>
+                        <div class="chart-wrapper d-flex justify-content-center">
+                            <canvas id="pie-chart"></canvas>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-lg-6 bar-chart-container">
+                        <p class="small-color fs-6">Weekly productivity</p>
+                        <div class="chart-wrapper">
+                            <canvas id="bar-chart"></canvas>
+                        </div>
                     </div>
                 </div>
-                <div class="chart-graph">
-                    <h2>Weekly productivity</h2>
-                    <div>
-                        <canvas id="bar-chart" class="w-100 md:w-150 h-100"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="calendar">
-            <div id="calendar-container" class="bg-neutral-50 p-8 pt-5 rounded-xl ring-1 ring-stone-300"></div>
-        </section>
-        
+            <section id="calendar">
+                <div class="bg-body border border-light-subtle p-3 rounded-4 mt-4 calendar-container"></div>
+            </section>
+        </div>
+    </div>
 
-
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="chart.js"></script>
-        <script src="calendar.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-    </main>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="chart.js"></script>
+    <script src="calendar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, .box-color {
+    background: rgb(252, 248, 246);
+}
+
+.add-btn {
+    transition: transform 0.3s ease;
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+}
+
+.del-btn {
+    background: rgb(252, 248, 246);
+    font-size: small;
+    color: rgb(146, 142, 151);
+}
+
+.form-container {
+    display: none;
+}
+
+.small-things{
+    font-size: small;
+    color: rgb(146, 142, 151);
+}
+
+.small-color {
+    color: rgb(146, 142, 151);
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 400px;
+}
+
+.bar-chart-container {
+    margin-top: 0px;
+}
+
+.calendar-container{
+    text-decoration: none;
+}
+
+.fc .fc-next-button,
+.fc .fc-prev-button {
+    background: white;
+    color: rgb(146, 142, 151);
+    border: none;
+}
+
+.fc .fc-dayGridMonth-view {
+    background: rgb(252, 248, 246);
+}
+
+.fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: rgb(146, 142, 151);
+}
+
+.fc .fc-daygrid-day-number {
+    text-decoration: none;
+    color: black;
+    font-size: small;
+}
+
+@media (max-width: 992px) {
+    .bar-chart-container {
+        margin-top: 30px;
+    }
+    .chart-wrapper {
+        height: 350px;
+    }
+}
+@media (max-width: 767px) {
+    .bar-chart-container {
+        margin-top: 30px;
+    }
+    .chart-wrapper {
+        height: 280px;
+    }
+}

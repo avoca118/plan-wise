@@ -5,7 +5,3 @@ const formatted = now.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric'
 });
-
-const addBtn = document.querySelector('.js-add-btn').addEventListener('click', () => {
-  
-});
