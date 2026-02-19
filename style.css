@@ -66,6 +66,26 @@ body, .box-color {
   color: rgb(146, 142, 151);
 }
 
+.color-code {
+    color: rgb(190, 127, 133);
+}
+
+.background-code {
+    background: rgb(190, 127, 133);
+    color: white;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.background-code:hover {
+    background: rgb(190, 127, 133); 
+    color: white; 
+    transform: translateY(-2px); 
+}
+
+.stop-focus-btn {
+    display: none;
+}
+
 .fc .fc-daygrid-day-number {
     text-decoration: none;
     color: black;

@@ -1,3 +1,31 @@
+function setWithExpiry(key, value, ttl) {
+  const now = new Date();
+
+  const item = {
+    value: value,
+    expiry: now.getTime() + ttl
+  };
+
+  localStorage.setItem(key, JSON.stringify(item));
+}
+
+function getWithExpiry(key) {
+  const itemStr = localStorage.getItem(key);
+  if (!itemStr) return null;
+
+  const item = JSON.parse(itemStr);
+  const now = new Date();
+
+  if (now.getTime() > item.expiry) {
+    localStorage.removeItem(key);
+    return null;
+  }
+
+  return item.value;
+}
+
+const oneDay = 24 * 60 * 60 * 1000;
+
 function openForm() {
   document.querySelector('.form-container').style.display = "block";
   document.querySelector('.add-btn').style.display = "none";
@@ -12,13 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const container = document.querySelector('.study-box-container');
   const studyTimeInput = document.querySelector('.study-time');
 
-  const savedStudyTime = localStorage.getItem('todayStudyTime');
+  const savedStudyTime = getWithExpiry('todayStudyTime');
   if (savedStudyTime !== null) {
     studyTimeInput.value = savedStudyTime;
   }
 
   studyTimeInput.addEventListener('input', function () {
-    localStorage.setItem('todayStudyTime', studyTimeInput.value);
+    setWithExpiry('todayStudyTime', studyTimeInput.value, oneDay);
     renderSubjects();
   });
 
@@ -57,13 +85,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function saveToLocalStorage(subject) {
-  const subjects = JSON.parse(localStorage.getItem('subjects')) || [];
+  const subjects = getWithExpiry('subjects') || [];
   subjects.push(subject);
-  localStorage.setItem("subjects", JSON.stringify(subjects));
+  setWithExpiry("subjects", subjects, oneDay);
 }
 
 function getSubjects() {
-  return JSON.parse(localStorage.getItem("subjects")) || [];
+  const subjects = getWithExpiry("subjects");
+  return Array.isArray(subjects) ? subjects : [];
 }
 
 function renderSubjects() {
@@ -161,13 +190,97 @@ function handleStudyButtons(e) {
     subject.studiedHours = subject.studyHour;
   }
 
-  localStorage.setItem("subjects", JSON.stringify(subjects));
+  setWithExpiry("subjects", subjects, oneDay);
   renderSubjects();
 }
 
 function deleteSubject(id) {
   const subjects = getSubjects();
   const updated = subjects.filter(sub => sub.id !== id);
-  localStorage.setItem("subjects", JSON.stringify(updated));
+  setWithExpiry("subjects", updated, oneDay);
   renderSubjects();
 }
+
+const startFocusBtn = document.querySelector('.start-focus-btn');
+const stopFocusBtn = document.querySelector('.stop-focus-btn');
+const countDown = document.querySelector('.countdown');
+const focusText = document.querySelector('.focus-text');
+const sessionRound = document.querySelector('.session-number');
+
+let sessionToday = parseInt(getWithExpiry("sessionToday")) || 0;
+sessionRound.textContent = sessionToday;
+
+const startingMinutes = 25;
+const breakMinutes = 5;
+
+let time = startingMinutes * 60;
+let breakTime = breakMinutes * 60;
+let myInterval = null;
+let isBreak = false;
+
+function updateDisplay(secondsLeft) {
+  const minutes = Math.floor(secondsLeft / 60);
+  let seconds = secondsLeft % 60;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  countDown.innerHTML = `${minutes}:${seconds}`;
+}
+
+function focusCountDown() {
+  if (time <= 0) {
+    clearInterval(myInterval);
+    startBreak();
+    return;
+  }
+
+  updateDisplay(time);
+  time--;
+}
+
+function breakCountDown() {
+  if (breakTime <= 0) {
+    clearInterval(myInterval);
+    resetPomodoro();
+    return;
+  }
+
+  updateDisplay(breakTime);
+  breakTime--;
+}
+
+function startFocus() {
+  isBreak = false;
+  focusText.textContent = "Focus";
+  startFocusBtn.style.display = "none";
+  stopFocusBtn.style.display = "block";
+
+  myInterval = setInterval(focusCountDown, 1000);
+}
+
+function startBreak() {
+  isBreak = true;
+  focusText.textContent = "Break";
+
+  time = startingMinutes * 60;
+  myInterval = setInterval(breakCountDown, 1000);
+
+  sessionToday++;
+  sessionRound.textContent = sessionToday;
+  setWithExpiry("sessionToday", sessionToday, oneDay);
+}
+
+function resetPomodoro() {
+  clearInterval(myInterval);
+  time = startingMinutes * 60;
+  breakTime = breakMinutes * 60;
+  updateDisplay(time);
+
+  focusText.textContent = "_";
+  startFocusBtn.style.display = "block";
+  stopFocusBtn.style.display = "none";
+}
+
+startFocusBtn.addEventListener("click", startFocus);
+
+stopFocusBtn.addEventListener("click", () => {
+  resetPomodoro();
+});

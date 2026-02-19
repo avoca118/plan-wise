@@ -20,12 +20,12 @@
             <div class="row pt-3 g-4">
                 <div class="col-12 col-sm-6 add-btn-container">
                     <div class="bg-body border border-light-subtle p-3 rounded-4">
-                        <button class="btn bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3 add-btn" onclick="openForm()">
+                        <button class="btn background-code text-light rounded-3 add-btn" onclick="openForm()">
                             + Add subject
                         </button>
 
                         <div class="form-container bg-body border border-light-subtle p-3 rounded-4">
-                            <button class="btn bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3" onclick="closeForm()">Cancel</button>
+                            <button class="btn background-code text-light rounded-3" onclick="closeForm()">Cancel</button>
                             <form id="study-form" class="mt-2">
                                 <div class="mb-3">
                                     <label for="" class="form-label fw-light">Name</label> <br>
@@ -50,7 +50,7 @@
                                     <input type="number" id="studyHour" name="studyHour" min="0.5" step="0.5" class="form-control" value="10">
                                 </div>
 
-                                <button class="btn bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3" type="submit">Add subject</button>
+                                <button class="btn background-code text-light rounded-3" type="submit">Add subject</button>
                             </form>
                         </div>
                     </div>
@@ -84,13 +84,14 @@
                             <p>Pomodoro</p>
                             <span class="small-things">25 min focus · 5 min break</span>
                             <div class="d-flex flex-column align-items-center">
-                                <span class="timer">25:00</span>
-                                <span>_</span>
+                                <span class="timer color-code fs-2 fw-semibold countdown">25:00</span>
+                                <span class="focus-text small-things">_</span>
                             </div>
                             <div>
-                                <button class="btn btn-sm bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3">Start focus</button>
+                                <button class="btn btn-sm background-code text-light rounded-3 start-focus-btn">Start focus</button>
+                                <button class="btn btn-sm small-things rounded-3 stop-focus-btn">Stop focus</button>
                             </div>
-                            <p class="small-things">Sessions today: 0</p>
+                            <p class="small-things mt-2">Sessions today: <strong class="session-number">0</strong></p>
                         </div>
                     </div>
 
