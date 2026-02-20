@@ -44,6 +44,6 @@ Mobile
 
 👨‍💻 Author
 
-## May Nyein Chan
+### May Nyein Chan
 
 Frontend Developer
