@@ -1,3 +1,6 @@
+import { updateDoughnutChart } from "./chart.js";
+import { updateBarChart } from "./chart.js";
+
 // Setting localStorage expire time
 function setWithExpiry(key, value, ttl) {
   const now = new Date();
@@ -47,6 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
     studyTimeInput.value = savedStudyTime;
   }
 
+  document.querySelector('.add-btn')
+    .addEventListener('click', openForm);
+
+  document.querySelector('.form-container button')
+    .addEventListener('click', closeForm);
+
   studyTimeInput.addEventListener('input', function () {
     setWithExpiry('todayStudyTime', studyTimeInput.value, oneDay);
     renderSubjects();
@@ -69,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const studyHour = parseFloat(document.querySelector('#studyHour').value);
 
     const newSubject = {
-      createdAt: dayjs(),
+      createdAt: dayjs().toISOString(),
       id: crypto.randomUUID(),
       name,
       difficulty,
@@ -93,7 +102,7 @@ function saveToLocalStorage(subject) {
   setWithExpiry("subjects", subjects, oneDay);
 }
 
-function getSubjects() {
+export function getSubjects() {
   const subjects = getWithExpiry("subjects");
   return Array.isArray(subjects) ? subjects : [];
 }
@@ -199,7 +208,7 @@ function renderSubjects() {
           <button 
             style="border:none;" 
             class="p-1 del-btn"
-            onclick="deleteSubject('${subject.id}')">
+            data-index='${subject.id}'">
             Delete
           </button>
         </div>
@@ -209,6 +218,13 @@ function renderSubjects() {
   });
 
   container.innerHTML = studyBox;
+
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('del-btn')) {
+      const index = e.target.dataset.index;
+      deleteSubject(index);
+    }
+  });
 
   const total = calculateTotalHours();
   totalHoursStudied.innerHTML = total.toFixed(1);
@@ -221,6 +237,8 @@ function renderSubjects() {
   const calculateWeek = calculateThisWeek();
   const totalHoursThisWeek = document.querySelector('.studied-this-week');
   totalHoursThisWeek.innerHTML = calculateWeek;
+  updateDoughnutChart();
+  updateBarChart();
 }
 
 function handleStudyButtons(e) {

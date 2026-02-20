@@ -1,12 +1,23 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const ctx = document.getElementById('pie-chart');
+import { getSubjects } from "./script.js";
+import dayjs from 'https://unpkg.com/dayjs@1.11.9/esm/index.js'; 
 
-  new Chart(ctx, {
+let doughnutChart;
+let barChart;
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // doughnut chart
+  const doughnutCtx = document.getElementById('doughnut-chart');
+  const subjects = getSubjects();
+  const labels = subjects.map(s => s.name);
+  const studiedHours = subjects.map(s => s.studiedHours);
+
+  doughnutChart = new Chart(doughnutCtx, {
     type: 'doughnut',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: labels,
       datasets: [{
-        data: [12, 19, 3, 5, 2, 3],
+        data: studiedHours,
         backgroundColor: [
           '#F19BA7',
           '#f7f5ab',
@@ -23,43 +34,86 @@ document.addEventListener("DOMContentLoaded", function () {
       responsive: true,
       maintainAspectRatio: true,
       plugins: {
-        legend: {
-          position: 'bottom'
-        }
+        legend: { position: 'bottom' }
       }
     }
   });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-  const ctx = document.getElementById('bar-chart');
+  // bar chart
+  const barCtx = document.getElementById('bar-chart');
+  const last7Days = [];
+  const studiedPerDay = [];
 
-  new Chart(ctx, {
+  for (let i = 6; i >= 0; i--) {
+    const day = dayjs().subtract(i, 'day');
+    last7Days.push(day.format('MM-DD'));
+
+    let total = 0;
+    subjects.forEach(subject => {
+      const studyDate = subject.lastStudiedDate ? dayjs(subject.lastStudiedDate) : dayjs(subject.createdAt);
+      if (studyDate.isSame(day, 'day')) {
+        total += subject.studiedHours || 0;
+      }
+    });
+
+    studiedPerDay.push(total);
+  }
+
+  barChart = new Chart(barCtx, {
     type: 'bar',
     data: {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      labels: last7Days,
       datasets: [{
-        data: [12, 19, 3, 5, 2, 3, 25],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(255, 205, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(200, 0, 193, 0.2)',
-        ],
-        borderColor: [
-          'rgb(255, 99, 132)',
-          'rgb(255, 159, 64)',
-          'rgb(255, 205, 86)',
-          'rgb(75, 192, 192)',
-          'rgb(54, 162, 235)',
-          'rgb(153, 102, 255)',
-          'rgb(201, 203, 207)',
-        ],
+        label: "Studied Hours",
+        data: studiedPerDay,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
         borderWidth: 1
       }]
     },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        y: { beginAtZero: true }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
   });
+
 });
+
+export function updateDoughnutChart() {
+  const subjects = getSubjects();
+
+  doughnutChart.data.labels = subjects.map(s => s.name);
+  doughnutChart.data.datasets[0].data = subjects.map(s => s.studiedHours);
+  doughnutChart.update();
+}
+
+export function updateBarChart() {
+  const subjects = getSubjects();
+  const last7Days = [];
+  const studiedPerDay = [];
+
+  for (let i = 6; i >= 0; i--) {
+    const day = dayjs().subtract(i, 'day');
+    last7Days.push(day.format('MM-DD'));
+
+    let total = 0;
+    subjects.forEach(subject => {
+      const studyDate = subject.lastStudiedDate ? dayjs(subject.lastStudiedDate) : dayjs(subject.createdAt);
+      if (studyDate.isSame(day, 'day')) {
+        total += subject.studiedHours || 0;
+      }
+    });
+
+    studiedPerDay.push(total);
+  }
+
+  barChart.data.labels = last7Days;
+  barChart.data.datasets[0].data = studiedPerDay;
+  barChart.update();
+}

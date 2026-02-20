@@ -20,12 +20,12 @@
             <div class="row pt-3 g-4">
                 <div class="col-12 col-sm-6 add-btn-container">
                     <div class="bg-body border border-light-subtle p-3 rounded-4">
-                        <button class="btn background-code text-light rounded-3 add-btn" onclick="openForm()">
+                        <button class="btn background-code text-light rounded-3 add-btn">
                             + Add subject
                         </button>
 
                         <div class="form-container bg-body border border-light-subtle p-3 rounded-4">
-                            <button class="btn background-code text-light rounded-3" onclick="closeForm()">Cancel</button>
+                            <button class="btn background-code text-light rounded-3">Cancel</button>
                             <form id="study-form" class="mt-2">
                                 <div class="mb-3">
                                     <label for="" class="form-label fw-light">Name</label> <br>
@@ -128,7 +128,7 @@
                         <p class="small-color fs-6">Hours per subject</p>
                         <p class="small-things" style="display: none;">Log some study hours to see the chart.</p>
                         <div class="chart-wrapper d-flex justify-content-center">
-                            <canvas id="pie-chart"></canvas>
+                            <canvas id="doughnut-chart"></canvas>
                         </div>
                     </div>
 
@@ -148,10 +148,10 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="script.js" defer></script>
+    <script src="script.js" type="module" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="chart.js" type="module"></script>
     <script src="calendar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 </body>
