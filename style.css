@@ -82,6 +82,10 @@ body, .box-color {
     transform: translateY(-2px); 
 }
 
+.progress-bar-color {
+    background: linear-gradient(to right, rgb(190, 127, 133), rgb(245, 227, 229));
+}
+
 .stop-focus-btn {
     display: none;
 }

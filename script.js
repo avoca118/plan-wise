@@ -1,3 +1,4 @@
+// Setting localStorage expire time
 function setWithExpiry(key, value, ttl) {
   const now = new Date();
 
@@ -26,6 +27,7 @@ function getWithExpiry(key) {
 
 const oneDay = 24 * 60 * 60 * 1000;
 
+// Form for adding subject
 function openForm() {
   document.querySelector('.form-container').style.display = "block";
   document.querySelector('.add-btn').style.display = "none";
@@ -67,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const studyHour = parseFloat(document.querySelector('#studyHour').value);
 
     const newSubject = {
+      createdAt: dayjs(),
       id: crypto.randomUUID(),
       name,
       difficulty,
@@ -95,10 +98,52 @@ function getSubjects() {
   return Array.isArray(subjects) ? subjects : [];
 }
 
+function calculateTotalHours() {
+  const subjects = getSubjects();
+  return subjects.reduce((total, subject) => {
+    return total + (subject.studiedHours || 0);
+  }, 0);
+}
+
+function calculateCompletedPercent() {
+  const subjects = getSubjects();
+  if (subjects.length === 0) return 0;
+
+  let totalProgress = 0;
+  subjects.forEach(subject => {
+    const studied = subject.studiedHours || 0;
+    const studyHour = subject.studyHour || 1; 
+    totalProgress += Math.min(100, (studied / studyHour) * 100);
+  });
+
+  const avgPercent = totalProgress / subjects.length;
+  setWithExpiry("completedPercent", avgPercent, oneDay);
+  return avgPercent;
+}
+
+function calculateThisWeek() {
+  const subjects = getSubjects();
+  if (subjects.length === 0) return 0;
+
+  const oneWeekAgo = dayjs().subtract(7, "day");
+  let total = 0;
+
+  subjects.forEach(subject => {
+    const createdDate = dayjs(subject.createdAt);
+
+    if (createdDate.isAfter(oneWeekAgo)) {
+      total += subject.studiedHours || 0;
+    }
+  });
+
+  return total;
+}
+
 function renderSubjects() {
   const subjects = getSubjects();
   const container = document.querySelector('.study-box-container');
   const studyTime = parseFloat(document.querySelector('.study-time').value) || 0;
+  const totalHoursStudied = document.querySelector('.total-hours-studied');
 
   if (subjects.length === 0) {
     container.innerHTML = "<p class='small-things'>No subjects yet.</p>";
@@ -121,31 +166,31 @@ function renderSubjects() {
 
         <div class="d-flex justify-content-between">
           <span class="fw-semibold">#${index + 1} ${subject.name}</span>
-          <span class="bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3 px-2 py-1">
+          <span class="background-code text-light rounded-3 px-2 py-1">
             ${studied} / ${subject.studyHour}h
           </span>
         </div>
 
         <div class="mt-2 small-things">
-          <span>${subject.examDate}</span>
+          <span>Exam: ${subject.examDate}</span>
           <span class="px-2">${daysLeft} days left</span>
           <span>Difficulty: ${subject.difficulty}/5</span>
         </div>
 
         <div class="progress mt-2" style="height: 8px;">
-          <div class="progress-bar" style="width:${progressPercent}%"></div>
+          <div class="progress-bar progress-bar-color" style="width:${progressPercent}%"></div>
         </div>
 
         <div class="d-flex justify-content-between mt-3">
           <div ${studyTime === 0 || remaining <= 0 ? 'style="display:none;"' : ''}>
             <button 
-              class="btn btn-sm bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3 half-time-btn"
+              class="btn btn-sm background-code text-light rounded-3 half-time-btn"
               data-id="${subject.id}" ${remaining < 0.5 ? 'disabled' : ''}>
               +0.5 h
             </button>
 
             <button 
-              class="btn btn-sm bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-3 full-time-btn"
+              class="btn btn-sm background-code text-light rounded-3 full-time-btn"
               data-id="${subject.id}" ${remaining < 1 ? 'disabled' : ''}>
               +1 h
             </button>
@@ -164,6 +209,18 @@ function renderSubjects() {
   });
 
   container.innerHTML = studyBox;
+
+  const total = calculateTotalHours();
+  totalHoursStudied.innerHTML = total.toFixed(1);
+  const completed = calculateCompletedPercent();
+  const completedEl = document.querySelector('.complete-percent');
+  if (completedEl) {
+    completedEl.innerHTML = completed.toFixed(1) + "%";
+  }
+
+  const calculateWeek = calculateThisWeek();
+  const totalHoursThisWeek = document.querySelector('.studied-this-week');
+  totalHoursThisWeek.innerHTML = calculateWeek;
 }
 
 function handleStudyButtons(e) {
@@ -177,10 +234,11 @@ function handleStudyButtons(e) {
   const studyTime = parseFloat(document.querySelector('.study-time').value) || 0;
   const studied = subject.studiedHours || 0;
   const remaining = studyTime - studied;
+  let totalHoursStudied = document.querySelector('.total-hours-studied');
 
   if (e.target.classList.contains("half-time-btn") && remaining >= 0.5) {
     subject.studiedHours += 0.5;
-  }
+  } 
 
   if (e.target.classList.contains("full-time-btn") && remaining >= 1) {
     subject.studiedHours += 1;
@@ -192,6 +250,8 @@ function handleStudyButtons(e) {
 
   setWithExpiry("subjects", subjects, oneDay);
   renderSubjects();
+  const total = calculateTotalHours();
+  totalHoursStudied.innerHTML = total.toFixed(1);
 }
 
 function deleteSubject(id) {
@@ -201,6 +261,7 @@ function deleteSubject(id) {
   renderSubjects();
 }
 
+// Setting Timer 
 const startFocusBtn = document.querySelector('.start-focus-btn');
 const stopFocusBtn = document.querySelector('.stop-focus-btn');
 const countDown = document.querySelector('.countdown');
