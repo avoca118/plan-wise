@@ -1,5 +1,6 @@
 import { updateDoughnutChart } from "./chart.js";
 import { updateBarChart } from "./chart.js";
+import { updateCalendar } from "./calendar.js";
 
 // Setting localStorage expire time
 function setWithExpiry(key, value, ttl) {
@@ -84,7 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
       difficulty,
       examDate,
       studyHour,
-      studiedHours: 0
+      studiedHours: 0,
+      studyHistory: {}
     };
 
     saveToLocalStorage(newSubject);
@@ -155,9 +157,14 @@ function renderSubjects() {
   const totalHoursStudied = document.querySelector('.total-hours-studied');
 
   if (subjects.length === 0) {
-    container.innerHTML = "<p class='small-things'>No subjects yet.</p>";
-    return;
-  }
+  container.innerHTML = "<p class='small-things'>No subjects yet.</p>";
+
+  const logText = document.querySelector('.log-text');
+  const doughnutChart = document.querySelector('#doughnut-chart');
+  logText.style.display = "block";
+  doughnutChart.style.display = 'none';
+  return;
+}
 
   let studyBox = "";
 
@@ -228,6 +235,15 @@ function renderSubjects() {
 
   const total = calculateTotalHours();
   totalHoursStudied.innerHTML = total.toFixed(1);
+
+  const logText = document.querySelector('.log-text');
+
+  if (total === 0 && subjects.length > 0) {
+    logText.style.display = "block";
+  } else {
+    logText.style.display = "none";
+  }
+
   const completed = calculateCompletedPercent();
   const completedEl = document.querySelector('.complete-percent');
   if (completedEl) {
@@ -237,8 +253,10 @@ function renderSubjects() {
   const calculateWeek = calculateThisWeek();
   const totalHoursThisWeek = document.querySelector('.studied-this-week');
   totalHoursThisWeek.innerHTML = calculateWeek;
+  
   updateDoughnutChart();
   updateBarChart();
+  updateCalendar();
 }
 
 function handleStudyButtons(e) {
@@ -254,12 +272,30 @@ function handleStudyButtons(e) {
   const remaining = studyTime - studied;
   let totalHoursStudied = document.querySelector('.total-hours-studied');
 
+  let addedHours = 0;
+
   if (e.target.classList.contains("half-time-btn") && remaining >= 0.5) {
-    subject.studiedHours += 0.5;
-  } 
+    addedHours = 0.5;
+  }
 
   if (e.target.classList.contains("full-time-btn") && remaining >= 1) {
-    subject.studiedHours += 1;
+    addedHours = 1;
+  }
+
+  if (addedHours > 0) {
+    subject.studiedHours += addedHours;
+
+    const today = dayjs().format("YYYY-MM-DD");
+
+    if (!subject.studyHistory) {
+      subject.studyHistory = {};
+    }
+
+    if (!subject.studyHistory[today]) {
+      subject.studyHistory[today] = 0;
+    }
+
+    subject.studyHistory[today] += addedHours;
   }
 
   if (subject.studiedHours > subject.studyHour) {

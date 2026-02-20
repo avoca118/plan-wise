@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const doughnutCtx = document.getElementById('doughnut-chart');
   const subjects = getSubjects();
   const labels = subjects.map(s => s.name);
-  const studiedHours = subjects.map(s => s.studiedHours);
+  const studiedHours = subjects.map(s => s.studiedHours || 0);
 
   doughnutChart = new Chart(doughnutCtx, {
     type: 'doughnut',
@@ -82,14 +82,30 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
-
+  updateDoughnutChart();
+  updateBarChart();
 });
 
 export function updateDoughnutChart() {
   const subjects = getSubjects();
+  const canvas = document.getElementById('doughnut-chart');
+  const logText = document.querySelector('.log-text');
 
-  doughnutChart.data.labels = subjects.map(s => s.name);
-  doughnutChart.data.datasets[0].data = subjects.map(s => s.studiedHours);
+  const labels = subjects.map(s => s.name);
+  const data = subjects.map(s => s.studiedHours || 0);
+  const total = data.reduce((a, b) => a + b, 0);
+
+  if (total === 0) {
+    canvas.style.display = "none";
+    logText.style.display = "block";
+    return;
+  }
+
+  canvas.style.display = "block";
+  logText.style.display = "none";
+
+  doughnutChart.data.labels = labels;
+  doughnutChart.data.datasets[0].data = data;
   doughnutChart.update();
 }
 
@@ -100,13 +116,15 @@ export function updateBarChart() {
 
   for (let i = 6; i >= 0; i--) {
     const day = dayjs().subtract(i, 'day');
+    const key = day.format('YYYY-MM-DD');
+
     last7Days.push(day.format('MM-DD'));
 
     let total = 0;
+
     subjects.forEach(subject => {
-      const studyDate = subject.lastStudiedDate ? dayjs(subject.lastStudiedDate) : dayjs(subject.createdAt);
-      if (studyDate.isSame(day, 'day')) {
-        total += subject.studiedHours || 0;
+      if (subject.studyHistory && subject.studyHistory[key]) {
+        total += subject.studyHistory[key];
       }
     });
 

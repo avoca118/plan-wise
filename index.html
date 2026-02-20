@@ -14,7 +14,7 @@
         <div class="container p-3">
             <div class="text-center">
                 <h1>Study Planner</h1>
-                <p class="fw-lighter">Smart priority · Pomodoro · Progress</p>
+                <p class="fw-lighter">Pomodoro · Progress</p>
             </div>
 
             <div class="row pt-3 g-4">
@@ -71,8 +71,8 @@
 
             <section id="study-container">
                 <div class="bg-body border border-light-subtle p-3 rounded-4 mt-4">
-                    <p>What to study next</p>
-                    <p class="small-things">Sorted by urgency, difficulty & remaining hours.</p>
+                    <p class="fw-semibold ps-3">What to study next</p>
+                    <p class="small-things ps-3">Sorted by urgency, difficulty & remaining hours.</p>
                     <div class="study-box-container p-3 rounded-3"></div>
                 </div>
             </section>
@@ -81,7 +81,7 @@
                 <div class="row mt-4 g-2 g-lg-3">
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="bg-body border border-light-subtle p-3 rounded-4 h-150">
-                            <p>Pomodoro</p>
+                            <p class="fw-semibold">Pomodoro</p>
                             <span class="small-things">25 min focus · 5 min break</span>
                             <div class="d-flex flex-column align-items-center">
                                 <span class="timer color-code fs-2 fw-semibold countdown">25:00</span>
@@ -97,7 +97,7 @@
 
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="bg-body border border-light-subtle p-3 rounded-4 h-150">
-                            <p>Progress</p>
+                            <p class="fw-semibold">Progress</p>
                             <div class="d-flex justify-content-evenly">
                                 <div>
                                     <span class="color-code fw-semibold fs-4 complete-percent">0%</span>
@@ -126,7 +126,7 @@
                     <p class="fw-bold fs-5">Charts</p>
                     <div class="col-12 col-lg-6">
                         <p class="small-color fs-6">Hours per subject</p>
-                        <p class="small-things" style="display: none;">Log some study hours to see the chart.</p>
+                        <p class="small-things log-text mt-2" style="display: none;">Log some study hours to see the chart.</p>
                         <div class="chart-wrapper d-flex justify-content-center">
                             <canvas id="doughnut-chart"></canvas>
                         </div>
@@ -152,7 +152,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="chart.js" type="module"></script>
-    <script src="calendar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script src="calendar.js" type="module"></script>
 </body>
 </html>
