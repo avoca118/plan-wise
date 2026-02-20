@@ -1,50 +1,48 @@
-📚 Study Planner – Pomodoro Based Productivity Tracker
+📚 Study Planner
 
-A clean and minimal web-based study planner that helps students manage subjects, track study hours, and visualize productivity using charts and a calendar view.
+Pomodoro-Based Productivity Tracker
 
-Built with vanilla JavaScript and modern front-end tools.
+A modern web-based study planner that helps students manage subjects, track study hours, and visualize productivity using charts and a calendar view.
+
+📸 Preview
+
+A clean dashboard showing:
+
+Today’s study time
+
+Subject progress tracking
+
+Pomodoro timer
+
+Charts for productivity analysis
+
+Monthly calendar with daily study hours
 
 ✨ Features
 
-📌 Add and manage subjects
+✅ Add and manage subjects
 
-⏳ Pomodoro timer (25 min focus / 5 min break)
+⏳ Built-in Pomodoro timer (25 min focus / 5 min break)
 
 📊 Progress tracking with completion percentage
 
-📈 Charts for:
+📈 Doughnut chart (Hours per subject)
 
-Hours per subject (Doughnut chart)
+📉 Weekly productivity bar chart
 
-Weekly productivity (Bar chart)
+📅 Calendar view displaying daily study hours
 
-📅 Calendar view showing daily study hours
+🧠 Smart "What to study next" suggestions
 
-🧠 Smart “What to study next” section based on urgency & difficulty
+🔄 Automatic updates across charts, progress, and calendar
 
-📆 Automatic daily study time tracking
-
-📊 Dashboard Overview
-
-The dashboard displays:
-
-Today's study time
-
-Total hours studied
-
-Weekly progress
-
-Completion percentage per subject
-
-Visual productivity analytics
-
-🛠️ Built With
+🛠️ Tech Stack
 
 HTML5
 
 CSS3
 
-Vanilla JavaScript (ES6 Modules)
+JavaScript (ES6 Modules)
 
 Chart.js
 
@@ -52,30 +50,69 @@ FullCalendar
 
 Day.js
 
-🎯 Purpose
+📂 Project Structure
+study-planner/
+│
+├── index.html
+├── style.css
+├── script.js
+├── calendar.js
+├── charts.js
+└── README.md
+🚀 How to Run
 
-This project was built to:
+Clone the repository:
 
-Practice front-end development
+git clone https://github.com/your-username/study-planner.git
 
-Work with third-party libraries (Chart.js, FullCalendar)
+Open the project folder.
 
-Improve state management using JavaScript
+Run using Live Server (recommended)
+OR open index.html directly in your browser.
 
-Create a realistic productivity tool for students
+⚠️ Note: Since ES6 modules are used, running with Live Server is recommended.
 
-📌 How It Works
+📊 How It Works
 
-Add a subject with target hours.
+Add a subject with:
+
+Exam date
+
+Difficulty
+
+Target study hours
 
 Use the Pomodoro timer to study.
 
-Hours automatically update:
+After studying:
 
-Progress bar
+Hours are added automatically.
 
-Charts
+Progress updates.
 
-Calendar
+Charts refresh.
 
-Monitor your productivity visually.
+Calendar shows daily study time.
+
+Everything updates dynamically using JavaScript.
+
+🎯 Learning Goals
+
+This project was built to practice:
+
+DOM manipulation
+
+JavaScript modules
+
+Working with third-party libraries
+
+State management
+
+Data visualization
+
+Clean UI design
+
+👩‍💻 Author
+
+May Nyein Chan
+Frontend Developer (Student Project)
