@@ -50,9 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let total = 0;
     subjects.forEach(subject => {
-      const studyDate = subject.lastStudiedDate ? dayjs(subject.lastStudiedDate) : dayjs(subject.createdAt);
-      if (studyDate.isSame(day, 'day')) {
-        total += subject.studiedHours || 0;
+      if (subject.studyHistory && subject.studyHistory[key]) {
+        total += subject.studyHistory[key];
       }
     });
 

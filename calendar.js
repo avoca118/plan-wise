@@ -32,14 +32,15 @@ export function updateCalendar() {
   const hoursPerDay = {};
 
   subjects.forEach(subject => {
-    const date = subject.lastStudiedDate
-      ? dayjs(subject.lastStudiedDate)
-      : dayjs(subject.createdAt);
+    if (!subject.studyHistory) return;
 
-    const key = date.format('YYYY-MM-DD');
+    Object.keys(subject.studyHistory).forEach(date => {
+      if (!hoursPerDay[date]) {
+        hoursPerDay[date] = 0;
+      }
 
-    if (!hoursPerDay[key]) hoursPerDay[key] = 0;
-    hoursPerDay[key] += subject.studiedHours || 0;
+      hoursPerDay[date] += subject.studyHistory[date];
+    });
   });
 
   const events = Object.keys(hoursPerDay).map(date => ({
