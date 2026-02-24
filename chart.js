@@ -46,9 +46,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   for (let i = 6; i >= 0; i--) {
     const day = dayjs().subtract(i, 'day');
+    const key = day.format('YYYY-MM-DD');
+
     last7Days.push(day.format('MM-DD'));
 
     let total = 0;
+
     subjects.forEach(subject => {
       if (subject.studyHistory && subject.studyHistory[key]) {
         total += subject.studyHistory[key];

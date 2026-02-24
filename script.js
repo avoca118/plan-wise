@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const container = document.querySelector('.study-box-container');
   const studyTimeInput = document.querySelector('.study-time');
 
-  const savedStudyTime = getWithExpiry('todayStudyTime');
+  const savedStudyTime = localStorage.getItem('todayStudyTime');
   if (savedStudyTime !== null) {
     studyTimeInput.value = savedStudyTime;
   }
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener('click', closeForm);
 
   studyTimeInput.addEventListener('input', function () {
-    setWithExpiry('todayStudyTime', studyTimeInput.value, oneDay);
+    localStorage.setItem('todayStudyTime', studyTimeInput.value);
     renderSubjects();
   });
 
@@ -99,7 +99,7 @@ function calculateCompletedPercent() {
   });
 
   const avgPercent = totalProgress / subjects.length;
-  setWithExpiry("completedPercent", avgPercent, oneDay);
+  localStorage.setItem("completedPercent", avgPercent);
   return avgPercent;
 }
 
@@ -282,7 +282,7 @@ function handleStudyButtons(e) {
 function deleteSubject(id) {
   const subjects = getSubjects();
   const updated = subjects.filter(sub => sub.id !== id);
-  localStorage.setItem("subjects", JSON.stringify(subjects));
+  localStorage.setItem("subjects", JSON.stringify(updated));
   renderSubjects();
 }
 
@@ -293,7 +293,7 @@ const countDown = document.querySelector('.countdown');
 const focusText = document.querySelector('.focus-text');
 const sessionRound = document.querySelector('.session-number');
 
-let sessionToday = parseInt(getWithExpiry("sessionToday")) || 0;
+let sessionToday = parseInt(localStorage.getItem("sessionToday")) || 0;
 sessionRound.textContent = sessionToday;
 
 const startingMinutes = 25;
@@ -351,7 +351,7 @@ function startBreak() {
 
   sessionToday++;
   sessionRound.textContent = sessionToday;
-  setWithExpiry("sessionToday", sessionToday, oneDay);
+  localStorage.setItem("sessionToday", sessionToday);
 }
 
 function resetPomodoro() {
