@@ -2,35 +2,6 @@ import { updateDoughnutChart } from "./chart.js";
 import { updateBarChart } from "./chart.js";
 import { updateCalendar } from "./calendar.js";
 
-// Setting localStorage expire time
-function setWithExpiry(key, value, ttl) {
-  const now = new Date();
-
-  const item = {
-    value: value,
-    expiry: now.getTime() + ttl
-  };
-
-  localStorage.setItem(key, JSON.stringify(item));
-}
-
-function getWithExpiry(key) {
-  const itemStr = localStorage.getItem(key);
-  if (!itemStr) return null;
-
-  const item = JSON.parse(itemStr);
-  const now = new Date();
-
-  if (now.getTime() > item.expiry) {
-    localStorage.removeItem(key);
-    return null;
-  }
-
-  return item.value;
-}
-
-const oneDay = 24 * 60 * 60 * 1000;
-
 // Form for adding subject
 function openForm() {
   document.querySelector('.form-container').style.display = "block";
@@ -99,14 +70,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function saveToLocalStorage(subject) {
-  const subjects = getWithExpiry('subjects') || [];
+  const subjects = getSubjects();
   subjects.push(subject);
-  setWithExpiry("subjects", subjects, oneDay);
+  localStorage.setItem("subjects", JSON.stringify(subjects));
 }
 
 export function getSubjects() {
-  const subjects = getWithExpiry("subjects");
-  return Array.isArray(subjects) ? subjects : [];
+  const data = localStorage.getItem("subjects");
+  return data ? JSON.parse(data) : [];
 }
 
 function calculateTotalHours() {
@@ -302,7 +273,7 @@ function handleStudyButtons(e) {
     subject.studiedHours = subject.studyHour;
   }
 
-  setWithExpiry("subjects", subjects, oneDay);
+  localStorage.setItem("subjects", JSON.stringify(subjects));
   renderSubjects();
   const total = calculateTotalHours();
   totalHoursStudied.innerHTML = total.toFixed(1);
@@ -311,7 +282,7 @@ function handleStudyButtons(e) {
 function deleteSubject(id) {
   const subjects = getSubjects();
   const updated = subjects.filter(sub => sub.id !== id);
-  setWithExpiry("subjects", updated, oneDay);
+  localStorage.setItem("subjects", JSON.stringify(subjects));
   renderSubjects();
 }
 
